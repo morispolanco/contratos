@@ -1,9 +1,10 @@
 import streamlit as st
 import requests
+from streamlit import secrets
 
 API_KEY = '260cee54-6d54-48ba-92e8-bf641b5f4805'  # Agrega tu API key aquí
 
-def generate_contract(changes_to_make):
+def generate_contract(changes_to_make, contract_file):
     url = 'https://api.respell.ai/v1/run'
     headers = {
         'authorization': f'Bearer {API_KEY}',
@@ -15,7 +16,7 @@ def generate_contract(changes_to_make):
         'spellVersionId': 'hF1xYtgWU-TNr-HFZMpfw',
         'inputs': {
             'changes_to_make': changes_to_make,
-            'similar_contract_pdf': '...'
+            'similar_contract_pdf': contract_file.read()
         }
     }
     
@@ -35,13 +36,11 @@ def main():
     # Campo de texto para ingresar los cambios a realizar en el contrato
     changes_to_make = st.text_area('Cambios a realizar en el contrato', height=200)
     
-    if st.button('Cargar Contrato Original'):
-        # Aquí puedes agregar la funcionalidad para cargar el contrato original desde un archivo
-        
-        st.write('Contrato original cargado exitosamente')
+    # Campo de carga de archivo para cargar el contrato original
+    contract_file = st.file_uploader('Cargar Contrato Original', type=['pdf'])
     
-    if st.button('Generar Contrato'):
-        generate_contract(changes_to_make)
+    if st.button('Generar Contrato') and contract_file is not None:
+        generate_contract(changes_to_make, contract_file)
 
 if __name__ == '__main__':
     main()
