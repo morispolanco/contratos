@@ -1,11 +1,12 @@
 import streamlit as st
 import requests
-from streamlit import secrets
+
+API_KEY = '260cee54-6d54-48ba-92e8-bf641b5f4805'  # Agrega tu API key aquí
 
 def generate_contract(changes_to_make):
     url = 'https://api.respell.ai/v1/run'
     headers = {
-        'authorization': f'Bearer {secrets["api_key"]}',
+        'authorization': f'Bearer {API_KEY}',
         'accept': 'application/json',
         'content-type': 'application/json',
     }
@@ -43,4 +44,4 @@ def main():
         generate_contract(changes_to_make)
 
 if __name__ == '__main__':
-    
+    main()
