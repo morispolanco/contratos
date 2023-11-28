@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import base64
 from streamlit import secrets
 
 API_KEY = '260cee54-6d54-48ba-92e8-bf641b5f4805'  # Agrega tu API key aquí
@@ -11,12 +12,17 @@ def generate_contract(changes_to_make, contract_file):
         'accept': 'application/json',
         'content-type': 'application/json',
     }
+    
+    # Convertir el contenido del archivo PDF a una cadena codificada en base64
+    contract_content = contract_file.read()
+    contract_base64 = base64.b64encode(contract_content).decode('utf-8')
+    
     data = {
         'spellId': 'Q9cMo4SZQo7OFFnnq9l9L',
         'spellVersionId': 'hF1xYtgWU-TNr-HFZMpfw',
         'inputs': {
             'changes_to_make': changes_to_make,
-            'similar_contract_pdf': contract_file.read()
+            'similar_contract_pdf': contract_base64
         }
     }
     
