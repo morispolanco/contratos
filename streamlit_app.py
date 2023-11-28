@@ -1,10 +1,11 @@
 import streamlit as st
 import requests
+from streamlit import secrets
 
-def generate_contract():
+def generate_contract(changes_to_make):
     url = 'https://api.respell.ai/v1/run'
     headers = {
-        'authorization': 'Bearer 260cee54-6d54-48ba-92e8-bf641b5f4805',
+        'authorization': f'Bearer {secrets["api_key"]}',
         'accept': 'application/json',
         'content-type': 'application/json',
     }
@@ -12,7 +13,7 @@ def generate_contract():
         'spellId': 'Q9cMo4SZQo7OFFnnq9l9L',
         'spellVersionId': 'hF1xYtgWU-TNr-HFZMpfw',
         'inputs': {
-            'changes_to_make': 'Texto de ejemplo',
+            'changes_to_make': changes_to_make,
             'similar_contract_pdf': '...'
         }
     }
@@ -30,10 +31,16 @@ def main():
     st.title('Generador de Contratos')
     st.write('Ingrese los datos necesarios para generar el contrato')
     
-    # Aquí puedes agregar los campos necesarios para obtener los datos del contrato
+    # Campo de texto para ingresar los cambios a realizar en el contrato
+    changes_to_make = st.text_area('Cambios a realizar en el contrato', height=200)
+    
+    if st.button('Cargar Contrato Original'):
+        # Aquí puedes agregar la funcionalidad para cargar el contrato original desde un archivo
+        
+        st.write('Contrato original cargado exitosamente')
     
     if st.button('Generar Contrato'):
-        generate_contract()
+        generate_contract(changes_to_make)
 
 if __name__ == '__main__':
-    main()
+    
